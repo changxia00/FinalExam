@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinalExam SE</title>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="bg-layer"></div>
+    <div class="overlay-layer"></div>
+
+    <div class="app-wrapper">
+        <aside class="sidebar">
+            <div class="logo-area">
+                <div class="logo-icon">🕷️</div>
+                <div class="logo-text">
+                    <h2>Global<br>Economy</h2>
+                    <span class="logo-badge">FinalExam SE</span>
+                </div>
+            </div>
+            
+            <nav class="feature-nav">
+                <div class="nav-label">Mission: Analysis</div>
+    
+                <button hx-get="/features/f1" hx-target="#feature-stage" class="nav-btn">
+                    <span class="icon">📈</span>
+                    <div class="nav-btn-content">
+                        <span class="nav-title">Country Income Trend</span>
+                        <span class="nav-desc">History of a nation</span>
+                    </div>
+                </button>
+
+                <button hx-get="/features/f2" hx-target="#feature-stage" class="nav-btn">
+                <span class="icon">🗺️</span>
+                    <div class="nav-btn-content">
+                        <span class="nav-title">Sub-Region Compare</span>
+                        <span class="nav-desc">Compare neighbors</span>
+                    </div>
+                </button>
+
+                <button hx-get="/features/f3" hx-target="#feature-stage" class="nav-btn">
+                    <span class="icon">👑</span>
+                    <div class="nav-btn-content">
+                        <span class="nav-title">Regional Max</span>
+                        <span class="nav-desc">Find the peaks</span>
+                    </div>
+                </button>
+
+                <button hx-get="/features/f4" hx-target="#feature-stage" class="nav-btn">
+                    <span class="icon">🔎</span>
+                    <div class="nav-btn-content">
+                        <span class="nav-title">Keyword Search</span>
+                        <span class="nav-desc">Latest intel lookup</span>
+                    </div>
+                </button>
+    
+                <div class="nav-label" style="margin-top: 20px;">Mission: Update</div>
+
+                <button hx-get="/features/f5" hx-target="#feature-stage" class="nav-btn">
+                    <span class="icon">🆕</span>
+                    <div class="nav-btn-content">
+                        <span class="nav-title">Add Next Year Records</span>
+                        <span class="nav-desc">Add future data</span>
+                    </div>
+                </button>
+
+                <button hx-get="/features/f6" hx-target="#feature-stage" class="nav-btn">
+                    <span class="icon">✏️</span>
+                    <div class="nav-btn-content">
+                        <span class="nav-title">Update Records</span>
+                        <span class="nav-desc">Modify data</span>
+                    </div>
+                </button>
+
+                <button hx-get="/features/f7" hx-target="#feature-stage" class="nav-btn">
+                    <span class="icon">❌</span>
+                    <div class="nav-btn-content">
+                        <span class="nav-title">Delete Records</span>
+                        <span class="nav-desc">Delete data</span>
+                    </div>
+                </button>
+    
+                <div class="nav-spacer"></div>
+
+                <button hx-get="/features/f8" hx-target="#feature-stage" class="nav-btn special-btn">
+                    <span class="icon">👾</span>
+                    <div class="nav-btn-content">
+                        <span class="nav-title">Extremes</span>
+                        <span class="nav-desc">Top 5 Best & Worst</span>
+                    </div>
+                </button>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-header">
+                <div class="header-title">
+                    <h3>Data Terminal</h3>
+                    <span>"Listen to me... look at the data."</span>
+                </div>
+                <div class="user-profile">
+                    <span>Admin</span>
+                    <div class="avatar-circle">A</div>
+                </div>
+            </header>
+
+            <div id="feature-stage" class="feature-stage">
+                <div class="placeholder-state">
+                    <div class="placeholder-icon">🟣</div>
+                    <h2>"Welcome to my FinalExam."</h2>
+                    <p>Select a mission from the left to begin operation.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="toast-container">
+        <div class="toast-card">
+            <div class="toast-icon-box">✅</div>
+            <div class="toast-content">
+                <div class="toast-title">Operation Successful</div>
+                <div class="toast-message" id="toast-message">Data updated.</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="error-modal" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-icon">❎</div>
+            <h3 class="modal-title">Destiny Interrupted</h3>
+            <p class="modal-text" id="error-text">Error.</p>
+            <button class="modal-btn" onclick="document.getElementById('error-modal').classList.remove('show')">Retry</button>
+        </div>
+    </div>
+
+    <script>
+        // JS 邏輯保持不變
+        document.body.addEventListener("showMessage", function(evt){
+            let message = evt.detail.showMessage || evt.detail.value;
+            if (message) {
+                const toast = document.getElementById("toast-container");
+                document.getElementById("toast-message").innerText = decodeURIComponent(message);
+                toast.classList.add("show");
+                setTimeout(() => toast.classList.remove("show"), 3500);
+            }
+        });
+        document.body.addEventListener("showError", function(evt){
+            let error = evt.detail.showError || evt.detail.value;
+            if (error) {
+                const modal = document.getElementById("error-modal");
+                document.getElementById("error-text").innerText = decodeURIComponent(error);
+                modal.classList.add("show");
+            }
+        });
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

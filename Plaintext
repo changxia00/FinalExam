@@ -1,0 +1,15 @@
+my-web-app/
+├── data/                  # 存放 CSV 檔案
+│   ├── data1.csv
+│   └── data2.csv
+├── public/                # 前端靜態資源
+│   ├── index.html
+│   └── styles.css
+├── src/                   # 後端程式碼
+│   └── server.js
+├── database/              # 資料庫初始化腳本
+│   └── init.sql           # 我們將修改你的 ETL.sql 放在這裡
+├── compose.yaml           # Docker Compose 設定
+├── Dockerfile             # Node App 的 Docker 設定
+├── package.json           # Node 套件設定
+└── README.md

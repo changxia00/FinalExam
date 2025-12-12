@@ -1,0 +1,298 @@
+:root {
+    /* === 🕷️ Kafka Color Palette (卡芙卡配色) === */
+    --kafka-dark: #1a0b2e;       /* 深紫黑 (背景基底) */
+    --kafka-purple: #701a75;     /* 濃郁紫 (主要區塊) */
+    --kafka-magenta: #c026d3;    /* 亮洋紅 (強調/雷電) */
+    --kafka-accent: #e879f9;     /* 淺粉紫 (文字光暈) */
+    --kafka-gold: #fbbf24;       /* 金色 (飾品/按鈕) */
+    
+    --text-main: #f3e8ff;        /* 淺紫白文字 */
+    --text-muted: #d8b4fe;       /* 灰紫文字 */
+
+    /* === 深色玻璃擬態 === */
+    --glass-bg: rgba(20, 10, 40, 0.75); 
+    --glass-border: 1px solid rgba(192, 38, 211, 0.3); /* 洋紅色邊框光暈 */
+    --card-bg: rgba(30, 15, 50, 0.85);
+    --blur-amt: 16px;
+}
+
+body {
+    font-family: 'Exo 2', sans-serif;
+    margin: 0; height: 100vh; overflow: hidden;
+    color: var(--text-main);
+    background-color: var(--kafka-dark);
+}
+
+/* === 背景圖層 (請放入您的卡芙卡圖片) === */
+.bg-layer {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    /* 這裡使用一張範例圖，您可以替換成您上傳的那張 */
+    background-image: url('https://images4.alphacoders.com/131/1315867.jpeg'); 
+    background-size: cover;
+    background-position: center top; /* 對齊上方，避免切到頭 */
+    z-index: -2;
+}
+
+/* 疊加層：加上紫色漸層濾鏡，讓圖片與介面融合 */
+.overlay-layer {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(to right, rgba(26,11,46, 0.9) 0%, rgba(26,11,46, 0.4) 60%, rgba(26,11,46, 0.2) 100%);
+    backdrop-filter: blur(2px);
+    z-index: -1;
+}
+
+/* === Layout === */
+.app-wrapper { display: flex; height: 100vh; }
+
+/* === Sidebar (星核獵手終端風格) === */
+.sidebar {
+    width: 280px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--blur-amt));
+    border-right: var(--glass-border);
+    display: flex; flex-direction: column; padding: 30px;
+    box-shadow: 5px 0 25px rgba(0,0,0,0.5);
+}
+
+.logo-area { display: flex; align-items: center; margin-bottom: 40px; }
+.logo-icon { font-size: 2.5rem; margin-right: 15px; filter: drop-shadow(0 0 10px var(--kafka-magenta)); }
+.logo-text h2 { margin: 0; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 2px; color: white; }
+.logo-badge { 
+    font-size: 0.7rem; background: var(--kafka-magenta); color: white; 
+    padding: 2px 8px; border-radius: 4px; text-transform: uppercase; font-weight: bold;
+    box-shadow: 0 0 10px var(--kafka-magenta);
+}
+/*
+.nav-label {
+    font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px;
+    color: var(--kafka-gold); margin-bottom: 12px; font-weight: 700;
+    border-bottom: 1px solid rgba(251, 191, 36, 0.3); padding-bottom: 5px;
+}
+
+.nav-btn {
+    background: transparent; border: none; color: var(--text-muted);
+    text-align: left; padding: 12px 15px; border-radius: 8px;
+    cursor: pointer; font-size: 0.95rem; font-weight: 600;
+    transition: all 0.3s; display: flex; align-items: center; gap: 12px;
+    margin-bottom: 5px;
+    border: 1px solid transparent;
+}
+
+.nav-btn:hover {
+    background: rgba(192, 38, 211, 0.1);
+    color: white;
+    text-shadow: 0 0 8px var(--kafka-magenta);
+    border-color: rgba(192, 38, 211, 0.4);
+}
+
+.nav-btn.active {
+    background: linear-gradient(90deg, var(--kafka-purple), transparent);
+    color: white;
+    border-left: 4px solid var(--kafka-gold);
+    box-shadow: 0 4px 15px rgba(112, 26, 117, 0.5);
+}
+
+.special-btn {
+    color: var(--kafka-gold);
+    border: 1px dashed var(--kafka-gold);
+}
+.special-btn:hover { background: rgba(251, 191, 36, 0.1); box-shadow: 0 0 15px rgba(251, 191, 36, 0.3); }
+
+.nav-spacer { flex: 1; }
+*/
+
+/* === 修改 Sidebar Button 樣式以支援描述文字 === */
+
+.nav-btn {
+    background: transparent; 
+    border: 1px solid transparent; /* 預留邊框位置避免抖動 */
+    color: var(--text-muted);
+    text-align: left; 
+    padding: 12px 15px; 
+    border-radius: 8px;
+    cursor: pointer; 
+    transition: all 0.2s; 
+    
+    /* 關鍵修改：讓內容橫向排列，但允許內部文字垂直堆疊 */
+    display: flex; 
+    align-items: center; /* 垂直置中 */
+    gap: 12px;
+    margin-bottom: 6px;
+    height: auto; /* 高度自動適應內容 */
+}
+
+/* 按鈕內的文字容器 */
+.nav-btn-content {
+    display: flex;
+    flex-direction: column; /* 垂直排列：上標題、下說明 */
+    line-height: 1.2;
+}
+
+/* 主標題樣式 */
+.nav-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-body);
+}
+
+/* 副標題(說明)樣式 */
+.nav-desc {
+    font-size: 0.75rem;
+    color: #64748b; /* 較暗的灰色 */
+    margin-top: 2px;
+    font-weight: 400;
+}
+
+/* Hover 狀態 */
+.nav-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+.nav-btn:hover .nav-title { color: var(--text-main); }
+.nav-btn:hover .nav-desc { color: var(--text-muted); }
+
+/* Active 狀態 */
+.nav-btn.active {
+    background: var(--kafka-purple);
+    border-color: transparent;
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+.nav-btn.active .nav-title { color: white; }
+.nav-btn.active .nav-desc { color: rgba(255, 255, 255, 0.7); }
+
+/* 主畫面功能區塊的描述文字樣式 */
+.feature-description {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-top: -15px; /* 緊貼標題 */
+    margin-bottom: 25px;
+    line-height: 1.5;
+    border-left: 3px solid var(--kafka-gold); /* 左側加個金色裝飾線 */
+    padding-left: 10px;
+}
+
+/* === Main Content === */
+.main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+.top-header {
+    background: rgba(20, 10, 40, 0.5);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding: 20px 40px; display: flex; justify-content: space-between; align-items: center;
+}
+.header-title h3 { margin: 0; font-weight: 700; color: white; letter-spacing: 1px; }
+.header-title span { font-size: 0.9rem; color: var(--kafka-accent); font-style: italic; }
+
+.user-profile { display: flex; align-items: center; gap: 12px; color: white; }
+.avatar-circle {
+    width: 40px; height: 40px; background: var(--kafka-magenta); color: white;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 0 15px var(--kafka-magenta); font-weight: bold;
+}
+
+/* === Feature Box (卡片風格) === */
+.feature-stage { flex: 1; overflow-y: auto; padding: 40px; }
+
+.feature-box {
+    background: var(--card-bg);
+    padding: 30px; border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    backdrop-filter: blur(10px);
+    max-width: 900px; margin: 0 auto;
+    animation: fadeIn 0.5s ease-out;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 裝飾：卡片頂部的紫色光條 */
+.feature-box::before {
+    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px;
+    background: linear-gradient(90deg, var(--kafka-magenta), var(--kafka-gold));
+}
+
+.feature-box h4 {
+    margin-top: 0; color: var(--kafka-gold); border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 15px; margin-bottom: 25px; font-size: 1.4rem; letter-spacing: 1px;
+}
+
+/* Inputs */
+input, select {
+    background: rgba(0,0,0,0.4); border: 1px solid var(--kafka-purple);
+    color: white; padding: 12px 15px; border-radius: 8px;
+    font-family: 'Exo 2', sans-serif; transition: 0.3s;
+}
+input:focus, select:focus {
+    outline: none; border-color: var(--kafka-magenta);
+    box-shadow: 0 0 15px rgba(192, 38, 211, 0.4);
+    background: rgba(0,0,0,0.6);
+}
+
+/* Buttons */
+.btn {
+    padding: 10px 24px; border-radius: 8px; border: none; color: white;
+    cursor: pointer; font-weight: 600; font-family: 'Exo 2', sans-serif;
+    transition: 0.3s; text-transform: uppercase; letter-spacing: 1px;
+}
+
+.btn-success {
+    background: transparent;       /* 1. 背景改為透明 (跟 Cancel 一樣) */
+    border: 1px solid #10b981;     /* 2. 加上綠色邊框 */
+    color: #10b981;                /* 3. 文字變成綠色 */
+}
+
+.btn-success:hover {
+    background: #10b981;           /* 4. 滑鼠移上去時，填滿綠色 */
+    color: white;                  /* 文字變白 */
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.4); /* (選用) 加一點綠色光暈 */
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--kafka-purple), var(--kafka-magenta));
+    box-shadow: 0 4px 15px rgba(192, 38, 211, 0.3);
+}
+.btn-primary:hover { box-shadow: 0 0 20px var(--kafka-magenta); transform: translateY(-2px); }
+
+.btn-del {
+    background: transparent; border: 1px solid #ef4444; color: #ef4444;
+}
+.btn-del:hover { background: #ef4444; color: white; box-shadow: 0 0 15px #ef4444; }
+
+/* Table */
+.data-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+.data-table th {
+    text-align: left; padding: 15px; color: var(--kafka-gold);
+    border-bottom: 1px solid rgba(255,255,255,0.1); text-transform: uppercase; font-size: 0.85rem;
+}
+.data-table td {
+    padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); color: var(--text-muted);
+}
+.data-table tr:hover td {
+    background: rgba(192, 38, 211, 0.1); color: white;
+}
+
+/* Toast & Modal */
+#toast-container { position: fixed; top: 30px; right: 30px; z-index: 2000; transform: translateX(150%); transition: 0.4s; }
+#toast-container.show { transform: translateX(0); }
+.toast-card {
+    background: rgba(20, 10, 40, 0.95); border: 1px solid var(--kafka-gold);
+    padding: 15px 25px; border-radius: 8px; display: flex; gap: 15px;
+    box-shadow: 0 0 20px rgba(251, 191, 36, 0.2);
+}
+.toast-title { color: var(--kafka-gold); font-weight: bold; }
+
+.modal-box {
+    background: var(--kafka-dark); border: 1px solid var(--kafka-magenta);
+    padding: 40px; border-radius: 16px; text-align: center;
+    box-shadow: 0 0 50px rgba(192, 38, 211, 0.5); width: 350px;
+}
+.modal-icon {
+    font-size: 3rem; margin-bottom: 20px; text-shadow: 0 0 20px var(--kafka-magenta);
+}
+.modal-btn {
+    width: 100%; background: var(--kafka-purple); color: white; padding: 12px;
+    border: none; border-radius: 8px; margin-top: 20px; cursor: pointer;
+    font-weight: bold; text-transform: uppercase;
+}
+.modal-btn:hover { background: var(--kafka-magenta); box-shadow: 0 0 20px var(--kafka-magenta); }
+
+@keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }

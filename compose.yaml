@@ -1,0 +1,34 @@
+services:
+  # 資料庫服務
+  db:
+    image: mysql:8.0
+    container_name: finalexam-db  # 已修改為您的指定名稱
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: global_economy
+    volumes:
+      # 初始化 SQL (建立表格結構)
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+      # 將 CSV 檔案掛載進去，讓 MySQL 可以讀取 (為了 ETL)
+      - ./data:/var/lib/mysql-files
+    ports:
+      - "3306:3306"
+    # 允許讀取檔案與本機載入
+    command: --secure-file-priv=/var/lib/mysql-files --local-infile=1
+
+  # 網頁應用服務 (Node.js/Express)
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      # 這裡的 'db' 是服務名稱，不需要改，Docker 網路會自動解析
+      DB_HOST: db
+      DB_USER: root
+      DB_PASS: root
+      DB_NAME: global_economy
+    volumes:
+      - ./src:/app/src
+      - ./public:/app/public
